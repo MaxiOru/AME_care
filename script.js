@@ -24,44 +24,58 @@ const moodEmojis = ['😊', '🙂', '😐', '😟', '😰'];
 
 // Initialization
 document.addEventListener('DOMContentLoaded', () => {
-    lucide.createIcons();
+    if (window.lucide) lucide.createIcons();
     renderMedications();
     renderSymptoms();
+    
+    console.log(">>> AME APP LISTA Y ESPERANDO COMANDOS...");
 });
 
 // Navigation
 function switchView(viewId) {
-    // Update state
     currentView = viewId;
 
-    // Update UI - Views
     document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-    document.getElementById(`${viewId}-view`).classList.add('active');
+    const view = document.getElementById(`${viewId}-view`);
+    if (view) view.classList.add('active');
 
-    // Update UI - Nav Buttons
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-    // Find the button that calls this function with this viewId
+    
+    // Selección robusta del botón
     const navBtns = document.querySelectorAll('.nav-item');
-    // Simple mapping based on index or onclick attribute
-    // Let's just re-select based on the onclick attribute for simplicity
-    const activeBtn = Array.from(navBtns).find(btn => btn.getAttribute('onclick').includes(viewId));
-    if (activeBtn) activeBtn.classList.add('active');
+    navBtns.forEach(btn => {
+        if(btn.getAttribute('onclick').includes(viewId)) {
+            btn.classList.add('active');
+        }
+    });
 }
 
 // Emergency Logic
 function handleEmergency(type) {
-    const modal = document.getElementById('emergency-modal');
-    modal.classList.remove('hidden');
+    console.log(">>> EJECUTANDO PROTOCOLO DE EMERGENCIA:", type);
     
-    // Auto hide after 3 seconds
-    setTimeout(() => {
-        modal.classList.add('hidden');
-    }, 3000);
+    const modal = document.getElementById('emergency-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        
+        // Sonido de alerta (Opcional pero recomendado)
+        // const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3');
+        // audio.play().catch(e => console.log("Audio bloqueado por navegador"));
+
+        // Auto hide after 3 seconds
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 5000); // Le damos 5 segundos para que se vea bien
+    } else {
+        console.error("ERROR: No encuentro el modal 'emergency-modal'");
+    }
 }
 
 // Medication Logic
 function renderMedications() {
     const container = document.getElementById('medication-list');
+    if (!container) return;
+    
     container.innerHTML = '';
 
     medications.forEach(med => {
@@ -83,7 +97,7 @@ function renderMedications() {
         `;
         container.appendChild(div);
     });
-    lucide.createIcons();
+    if (window.lucide) lucide.createIcons();
 }
 
 function toggleMedication(id) {
@@ -96,6 +110,8 @@ function toggleMedication(id) {
 // Symptoms Logic
 function renderSymptoms() {
     const container = document.getElementById('symptoms-list');
+    if (!container) return;
+    
     container.innerHTML = '';
 
     symptomsData.forEach(symptom => {
@@ -138,4 +154,30 @@ function setSymptom(key, value) {
     symptoms[key] = value;
     renderSymptoms();
 }
-setTimeout(() => { modal.classList.add('hidden'); }, 3000);
+
+// --- PUENTE DE CONEXIÓN (TECLADO) ---
+// Este es el secreto para que Python funcione
+document.addEventListener('keydown', function(event) {
+    console.log(">>> TECLA RECIBIDA:", event.key);
+
+    // Normalizamos a minúscula para evitar problemas de Mayús
+    const key = event.key.toLowerCase();
+
+    // EMERGENCIA (Tecla E)
+    if (key === 'e') {
+        console.log("🚨 ¡SEÑAL DE EMERGENCIA DETECTADA!");
+        handleEmergency('general');
+    }
+    
+    // SCROLL ABAJO (Tecla S)
+    if (key === 's') {
+        console.log("⏬ SCROLL DOWN");
+        window.scrollBy({ top: 200, behavior: 'smooth' });
+    }
+    
+    // SCROLL ARRIBA (Tecla W)
+    if (key === 'w') {
+        console.log("⏫ SCROLL UP");
+        window.scrollBy({ top: -200, behavior: 'smooth' });
+    }
+});
