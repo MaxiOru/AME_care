@@ -616,3 +616,14 @@ h1, h2, h3 {
 }
 
 .text-sm { font-size: 0.875rem; }
+
+/* HACKATHON MODE: Cursor gigante para demo de accesibilidad */
+body {
+    cursor: crosshair; /* O puedes poner una imagen de una mira */
+}
+
+button:hover, .card:hover {
+    transform: scale(1.05); /* Efecto visual fuerte al pasar el mouse */
+    border: 3px solid #2563eb; /* Borde azul para confirmar selección */
+    transition: all 0.2s;
+}
