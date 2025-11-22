@@ -138,3 +138,4 @@ function setSymptom(key, value) {
     symptoms[key] = value;
     renderSymptoms();
 }
+setTimeout(() => { modal.classList.add('hidden'); }, 3000);
