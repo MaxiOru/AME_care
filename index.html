@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AME Care App</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-content">
+                <div>
+                    <h1>AME Care</h1>
+                    <p>Cuidado integral para AME</p>
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn"><i data-lucide="bell"></i></button>
+                    <button class="icon-btn"><i data-lucide="settings"></i></button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content">
+            <!-- Home View -->
+            <section id="home-view" class="view active">
+                <div class="card emergency-card">
+                    <button id="emergency-btn" class="btn-emergency" onclick="handleEmergency('general')">
+                        🚨 EMERGENCIA
+                    </button>
+                    <div class="emergency-options">
+                        <button class="btn-option" onclick="handleEmergency('breathing')">🫁 No puedo respirar</button>
+                        <button class="btn-option" onclick="handleEmergency('fall')">🤕 Me caí</button>
+                        <button class="btn-option" onclick="handleEmergency('other')">⚠️ Otra</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Estado de Hoy</h2>
+                    <div class="status-box">
+                        <div class="status-info">
+                            <div class="status-dot"></div>
+                            <span>Estado general: Bueno</span>
+                        </div>
+                        <span class="emoji">😊</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Tareas de Hoy</h2>
+                    <div class="task-list">
+                        <div class="task-item success">
+                            <i data-lucide="check" class="text-green"></i>
+                            <span>Medicación de la mañana</span>
+                        </div>
+                        <div class="task-item info">
+                            <i data-lucide="bell" class="text-blue"></i>
+                            <span>Cambio postural (en 30 min)</span>
+                        </div>
+                        <div class="task-item pending">
+                            <i data-lucide="x" class="text-gray"></i>
+                            <span>Ejercicios respiratorios</span>
+                        </div>
+                        <div class="task-item pending">
+                            <i data-lucide="x" class="text-gray"></i>
+                            <span>Medicación de la noche</span>
+                        </div>
+                    </div>
+                    <p class="task-summary">2 de 4 tareas completadas</p>
+                </div>
+
+                <div class="card reminder-card">
+                    <h2>Próximo Recordatorio</h2>
+                    <div class="reminder-content">
+                        <div>
+                            <p class="reminder-title">Cambio Postural</p>
+                            <p class="reminder-time">En 28 minutos</p>
+                        </div>
+                        <div class="reminder-icon">⏰</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Medication View -->
+            <section id="medication-view" class="view">
+                <div class="view-header">
+                    <h1>Medicación</h1>
+                    <button class="btn-primary small">+ Agregar</button>
+                </div>
+                <div id="medication-list" class="medication-list">
+                    <!-- Medications will be injected here by JS -->
+                </div>
+                <div class="card adherence-card">
+                    <h2>Adherencia esta semana</h2>
+                    <div class="week-days">
+                        <div class="day"><span>✓</span><small>Lun</small></div>
+                        <div class="day"><span>✓</span><small>Mar</small></div>
+                        <div class="day"><span>✓</span><small>Mié</small></div>
+                        <div class="day error"><span>✗</span><small>Jue</small></div>
+                        <div class="day"><span>✓</span><small>Vie</small></div>
+                        <div class="day future"><span>○</span><small>Sáb</small></div>
+                        <div class="day future"><span>○</span><small>Dom</small></div>
+                    </div>
+                    <div class="adherence-score">
+                        <span class="score">80%</span>
+                        <span>de adherencia</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Symptoms View -->
+            <section id="symptoms-view" class="view">
+                <h1>Registro de Síntomas</h1>
+                <div class="card">
+                    <p class="center-text">¿Cómo te sientes hoy?</p>
+                    <div id="symptoms-list">
+                        <!-- Symptoms injected by JS -->
+                    </div>
+                    <button class="btn-primary full-width">Guardar Registro</button>
+                </div>
+                <div class="card">
+                    <h2>Evolución Respiratoria</h2>
+                    <div class="chart-container">
+                        <div class="bar-chart">
+                            <div class="bar-col"><div class="bar" style="height: 40%; background: #f87171;"></div><span>L</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 60%; background: #facc15;"></div><span>M</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 60%; background: #facc15;"></div><span>M</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 80%; background: #4ade80;"></div><span>J</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 60%; background: #facc15;"></div><span>V</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 60%; background: #facc15;"></div><span>S</span></div>
+                            <div class="bar-col"><div class="bar" style="height: 80%; background: #4ade80;"></div><span>D</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Caregivers View -->
+            <section id="caregivers-view" class="view">
+                <div class="view-header">
+                    <h1>Equipo de Cuidado</h1>
+                    <button class="btn-primary small">+ Invitar</button>
+                </div>
+                <div class="caregiver-list">
+                    <div class="card caregiver-card active-admin">
+                        <div class="caregiver-header">
+                            <div class="avatar blue">M</div>
+                            <div class="caregiver-info">
+                                <h3>María (Mamá)</h3>
+                                <p>Administrador</p>
+                            </div>
+                            <span class="badge active">Activo</span>
+                        </div>
+                        <div class="caregiver-note">
+                            <p><strong>Última nota:</strong> "Hoy comió muy bien en el almuerzo 🍽️"</p>
+                            <small>Hace 2 horas</small>
+                        </div>
+                    </div>
+                    <div class="card caregiver-card">
+                        <div class="caregiver-header">
+                            <div class="avatar green">J</div>
+                            <div class="caregiver-info">
+                                <h3>Juan (Papá)</h3>
+                                <p>Cuidador</p>
+                            </div>
+                            <span class="badge inactive">Ausente</span>
+                        </div>
+                    </div>
+                    <div class="card caregiver-card">
+                        <div class="caregiver-header">
+                            <div class="avatar purple">A</div>
+                            <div class="caregiver-info">
+                                <h3>Ana (Abuela)</h3>
+                                <p>Cuidador</p>
+                            </div>
+                            <span class="badge active">Activo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card activity-card">
+                    <h2>Actividad Reciente</h2>
+                    <ul class="activity-list">
+                        <li><span class="dot green"></span> <span><strong>María</strong> marcó medicación de las 14:00</span></li>
+                        <li><span class="dot blue"></span> <span><strong>Ana</strong> realizó cambio postural</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Community View -->
+            <section id="community-view" class="view">
+                <h1>Comunidad AME</h1>
+                <div class="card warning-card">
+                    <div class="warning-content">
+                        <i data-lucide="alert-circle"></i>
+                        <div>
+                            <h3>Importante</h3>
+                            <p>Esta es una comunidad de apoyo. NO sustituye atención médica profesional.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="community-grid">
+                    <div class="category-card blue">
+                        <div class="icon">🆕</div>
+                        <h3>Recién Diagnosticados</h3>
+                        <p>128 mensajes</p>
+                    </div>
+                    <div class="category-card green">
+                        <div class="icon">👨‍👩‍👧</div>
+                        <h3>Para Cuidadores</h3>
+                        <p>342 mensajes</p>
+                    </div>
+                    <div class="category-card purple">
+                        <div class="icon">💪</div>
+                        <h3>Ejercicios y Terapias</h3>
+                        <p>215 mensajes</p>
+                    </div>
+                    <div class="category-card orange">
+                        <div class="icon">📋</div>
+                        <h3>Trámites y Coberturas</h3>
+                        <p>189 mensajes</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>Recursos Verificados</h2>
+                    <div class="resource-list">
+                        <div class="resource-item">
+                            <h3>Guía: Ejercicios Respiratorios</h3>
+                            <span class="badge verified">Verificado</span>
+                        </div>
+                        <div class="resource-item">
+                            <h3>Recetas Adaptadas para AME</h3>
+                            <span class="badge verified">Verificado</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" onclick="switchView('home')">
+                <i data-lucide="home"></i>
+                <span>Inicio</span>
+            </button>
+            <button class="nav-item" onclick="switchView('medication')">
+                <i data-lucide="pill"></i>
+                <span>Medicación</span>
+            </button>
+            <button class="nav-item" onclick="switchView('symptoms')">
+                <i data-lucide="activity"></i>
+                <span>Síntomas</span>
+            </button>
+            <button class="nav-item" onclick="switchView('caregivers')">
+                <i data-lucide="users"></i>
+                <span>Cuidadores</span>
+            </button>
+            <button class="nav-item" onclick="switchView('community')">
+                <i data-lucide="message-circle"></i>
+                <span>Comunidad</span>
+            </button>
+        </nav>
+
+        <!-- Emergency Modal -->
+        <div id="emergency-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-icon">🚨</div>
+                <h2>Alerta Enviada</h2>
+                <p>Se está notificando a tus contactos de emergencia...</p>
+                <div class="notification-list">
+                    <div class="notif-item success">✓ María (Mamá) - Notificada</div>
+                    <div class="notif-item success">✓ Juan (Papá) - Notificado</div>
+                    <div class="notif-item pending">⏳ Ana (Abuela) - Enviando...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
