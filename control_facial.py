@@ -4,7 +4,7 @@ import os
 import time  # Necesario para controlar el tiempo entre clicks
 
 # --- CONFIGURACIÓN DEL HACKER ---
-SUAVIZADO = 0.15       # (0.1 = Muy suave/lento, 0.9 = Rápido/tembloroso). Juega con esto.
+SUAVIZADO = 0.13 # (0.1 = Muy suave/lento, 0.9 = Rápido/tembloroso). Juega con esto.
 SENSIBILIDAD_X = 4.5   # Multiplicador ancho (aumenta si no llegas a los lados)
 SENSIBILIDAD_Y = 4.5   # Multiplicador alto (aumenta si no llegas arriba/abajo)
 COOLDOWN_CLICK = 1.0   # Segundos de espera después de un click (para que no se pegue)
